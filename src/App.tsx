@@ -26,6 +26,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [modalData, setModalData] = useState<{ images: string[], index: number, type?: 'gallery' | 'player' } | null>(null);
+  const [isSecondImage, setIsSecondImage] = useState(false);
 
   const t = translations[lang];
 
@@ -34,6 +35,10 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsSecondImage(false);
+  }, [modalData?.index]);
 
   const toggleLang = () => setLang(lang === 'ca' ? 'es' : 'ca');
 
@@ -556,13 +561,27 @@ export default function App() {
               >
                 {modalData.type === 'player' ? (
                   <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 bg-white/5 p-4 md:p-8 rounded-3xl border border-white/10 backdrop-blur-xl max-w-3xl w-full my-auto">
-                    <div className="w-40 md:w-56 aspect-[3/4] overflow-hidden rounded-2xl border-2 border-neon-pink shadow-[0_0_20px_rgba(255,0,255,0.2)] shrink-0 mx-auto md:mx-0">
-                      <img 
-                        src={playersData[modalData.index].image} 
-                        className="w-full h-full object-cover"
-                        alt={playersData[modalData.index].name}
-                      />
-                    </div>
+                    <motion.div 
+                      whileTap={{ scale: 0.9, rotate: -3 }}
+                      onClick={() => setIsSecondImage(!isSecondImage)}
+                      className="w-40 md:w-56 aspect-[3/4] overflow-hidden rounded-2xl border-2 border-neon-pink shadow-[0_0_20px_rgba(255,0,255,0.2)] shrink-0 mx-auto md:mx-0 cursor-pointer active:shadow-[0_0_40px_rgba(255,0,255,0.6)] transition-shadow relative"
+                    >
+                      <AnimatePresence mode="wait">
+                        <motion.img 
+                          key={isSecondImage ? 'img2' : 'img1'}
+                          initial={{ opacity: 0, scale: 1.1 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.3 }}
+                          src={isSecondImage ? (playersData[modalData.index] as any).image2 : playersData[modalData.index].image} 
+                          className="w-full h-full object-cover pointer-events-none"
+                          alt={playersData[modalData.index].name}
+                        />
+                      </AnimatePresence>
+                      <div className="absolute bottom-2 right-2 bg-neon-pink/80 text-white text-[8px] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">
+                        Click to flip
+                      </div>
+                    </motion.div>
                     <div className="w-full md:flex-1 text-left">
                       <div className="flex items-center justify-between mb-1">
                         <h2 className="text-2xl md:text-4xl font-display text-white uppercase">{playersData[modalData.index].name}</h2>
@@ -573,15 +592,6 @@ export default function App() {
                       <div className="mb-3 md:mb-5">
                         <h4 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-1">Bio</h4>
                         <p className="text-[11px] md:text-sm text-white/80 leading-relaxed italic">"{playersData[modalData.index].bio}"</p>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 md:gap-3">
-                        {Object.entries(playersData[modalData.index].stats).map(([key, value]) => (
-                          <div key={key} className="bg-white/5 p-2 rounded-xl border border-white/5">
-                            <span className="block text-[8px] md:text-[9px] font-black uppercase tracking-widest text-neon-pink mb-0.5">{key}</span>
-                            <span className="text-sm md:text-lg font-display text-white">{value}</span>
-                          </div>
-                        ))}
                       </div>
                     </div>
                   </div>
