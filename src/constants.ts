@@ -8,8 +8,9 @@ export const translations = {
       contact: "Contacte",
     },
     hero: {
-      title: "MÉS QUE UN EQUIP, UNA FAMÍLIA",
-      subtitle: "Futbol sala de barri, amistat i molta canya. Benvingudes a l'univers Xolas.",
+      title: "MÉS QUE UN EQUIP, UNA FAMÍLLIA",
+      subtitle:
+        "Futbol sala de barri, amistat i molta canya. Benvingudes a l'univers Xolas.",
       cta: "Inscriu-te al Xolas Day",
     },
     about: {
@@ -22,7 +23,8 @@ export const translations = {
     },
     festival: {
       title: "XOLAS DAY: EL FESTIVAL",
-      description: "El Xolas Day no és només un torneig, és la nostra gran festa. Un dia sencer dedicat a l'esport, la comunitat i, per descomptat, la gresca.",
+      description:
+        "El Xolas Day no és només un torneig, és la nostra gran festa. Un dia sencer dedicat a l'esport, la comunitat i, per descomptat, la gresca.",
       day_plan: "Esport i activitats durant el dia + Festa grossa a la nit.",
       schedule: "HORARIS",
       morning: "Matí: Torneig de Futbol Sala",
@@ -38,7 +40,7 @@ export const translations = {
       message: "Missatge",
       send: "Enviar Missatge",
       follow: "Segueix-nos a Instagram",
-    }
+    },
   },
   es: {
     nav: {
@@ -50,7 +52,8 @@ export const translations = {
     },
     hero: {
       title: "MÁS QUE UN EQUIPO, UNA FAMILIA",
-      subtitle: "Fútbol sala de barrio, amistad y mucha caña. Bienvenidas al universo Xolas.",
+      subtitle:
+        "Fútbol sala de barrio, amistad y mucha caña. Bienvenidas al universo Xolas.",
       cta: "Inscríbete al Xolas Day",
     },
     about: {
@@ -63,7 +66,8 @@ export const translations = {
     },
     festival: {
       title: "XOLAS DAY: EL FESTIVAL",
-      description: "El Xolas Day no es solo un torneo, es nuestra gran fiesta. Un día entero dedicado al deporte, la comunidad y, por supuesto, la juerga.",
+      description:
+        "El Xolas Day no es solo un torneo, es nuestra gran fiesta. Un día entero dedicado al deporte, la comunidad y, por supuesto, la juerga.",
       day_plan: "Deporte y actividades de día + Fiesta a tope de noche.",
       schedule: "HORARIOS",
       morning: "Mañana: Torneo de Fútbol Sala",
@@ -79,17 +83,119 @@ export const translations = {
       message: "Mensaje",
       send: "Enviar Mensaje",
       follow: "Síguenos en Instagram",
-    }
-  }
+    },
+  },
 };
 
-export const playersData = [
-  { id: 1, name: "La Capi", number: "10", position: "Cierre", skill: "Visión de juego y liderazgo", image: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&q=80&w=400" },
-  { id: 2, name: "Muro", number: "1", position: "Portera", skill: "Reflejos de gato", image: "https://images.unsplash.com/photo-1518604666860-9ed391f76460?auto=format&fit=crop&q=80&w=400" },
-  { id: 3, name: "Flecha", number: "7", position: "Ala", skill: "Velocidad punta", image: "https://images.unsplash.com/photo-1526232759583-02144e6743ef?auto=format&fit=crop&q=80&w=400" },
-  { id: 4, name: "Tanque", number: "9", position: "Pívot", skill: "Potencia de disparo", image: "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&q=80&w=400" },
-  { id: 5, name: "Magia", number: "8", position: "Ala", skill: "Regate imposible", image: "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=400" },
-  { id: 6, name: "Roca", number: "4", position: "Cierre", skill: "Infranqueable", image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&q=80&w=400" },
-  { id: 7, name: "Chispa", number: "11", position: "Ala", skill: "Energía inagotable", image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=400" },
-  { id: 8, name: "Killer", number: "22", position: "Pívot", skill: "Olfato goleador", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=400" },
+export type Player = {
+  id: number;
+  name: string;
+  slug: string; // para rutas seguras (sin acentos/espacios)
+  images: [string, string];
+};
+
+export const playersData: Player[] = [
+  {
+    id: 1,
+    name: "Gina Moré",
+    slug: "gina-more",
+    images: [
+      "/assets/fotos/fotos_jugadoras/GinaMore.jpeg",
+      "/assets/fotos/fotos_jugadoras/GinaMore2.jpeg",
+    ],
+  },
+  {
+    id: 2,
+    name: "Anna Solé",
+    slug: "anna-sole",
+    images: [
+      "/assets/fotos/fotos_jugadoras/AnaSole.jpg",
+      "/assets/fotos/fotos_jugadoras/AnaSole2.jpeg",
+    ],
+  },
+  {
+    id: 3,
+    name: "Maria Solé",
+    slug: "maria-sole",
+    images: [
+      "/assets/fotos/fotos_jugadoras/MariaSole.jpg",
+      "/assets/fotos/fotos_jugadoras/MariaSole2.jpeg",
+    ],
+  },
+  {
+    id: 4,
+    name: "Marta Vizcaino",
+    slug: "marta-vizcaino",
+    images: [
+      "/assets/fotos/fotos_jugadoras/MartaVizcaino.jpeg",
+      "/assets/fotos/fotos_jugadoras/MartaVizcaino2.jpeg",
+    ],
+  },
+  {
+    id: 5,
+    name: "Leire Garrido",
+    slug: "leire-garrido",
+    images: [
+      "/assets/fotos/fotos_jugadoras/LeireGarrido.jpeg",
+      "/assets/fotos/fotos_jugadoras/LeireGarrido2.jpeg",
+    ],
+  },
+
+  {
+    id: 6,
+    name: "Jana Puig",
+    slug: "jana-puig",
+    images: [
+      "/assets/fotos/fotos_jugadoras/JanaPuig.jpeg",
+      "/assets/fotos/fotos_jugadoras/JanaPuig2.jpeg",
+    ],
+  },
+
+  {
+    id: 7,
+    name: "Ona Pérez",
+    slug: "ona-perez",
+    images: [
+      "/assets/fotos/fotos_jugadoras/OnaPerez.jpeg",
+      "/assets/fotos/fotos_jugadoras/OnaPerez2.jpeg",
+    ],
+  },
+  {
+    id: 8,
+    name: "Lydia Fernández",
+    slug: "lydia-fernandez",
+    images: [
+      "/assets/fotos/fotos_jugadoras/LydiaFernandez.jpeg",
+      "/assets/fotos/fotos_jugadoras/LydiaFernandez2.jpeg",
+    ],
+  },
+  {
+    id: 9,
+    name: "Noa Plaza",
+    slug: "noa-plaza",
+    images: [
+      "/assets/fotos/fotos_jugadoras/NoaPlaza.jpeg",
+      "/assets/fotos/fotos_jugadoras/NoaPlaza2.jpeg",
+    ],
+  },
+  {
+    id: 10,
+    name: "Mara Plaza",
+    slug: "mara-plaza",
+    images: [
+      "/assets/fotos/fotos_jugadoras/MaraPlaza.jpeg",
+      "/assets/fotos/fotos_jugadoras/MaraPlaza2.jpeg",
+    ],
+  },
+];
+
+
+
+export const galleryImages = [
+  "/assets/fotos/fotos_equip/foto1.jpeg",
+  "/assets/fotos/fotos_equip/foto2.jpeg",
+  "/assets/fotos/fotos_equip/foto3.jpeg",
+  "/assets/fotos/fotos_equip/foto4.jpeg",
+  "/assets/fotos/fotos_equip/foto5.jpeg",
+  "/assets/fotos/fotos_equip/foto6.jpeg",
 ];

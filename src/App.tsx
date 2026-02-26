@@ -18,7 +18,11 @@ import {
   Calendar,
   Globe
 } from 'lucide-react';
-import { translations, playersData } from './constants';
+
+import emailjs from "@emailjs/browser";
+import { useRef } from "react";
+
+import { translations, playersData, galleryImages } from './constants';
 
 export default function App() {
   const [lang, setLang] = useState<'ca' | 'es'>('ca');
@@ -42,6 +46,47 @@ export default function App() {
     { name: t.nav.festival, href: '#festival' },
     { name: t.nav.contact, href: '#contact' },
   ];
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const galleryModules = import.meta.glob(
+    "/src/assets/fotos/fotos_equip/*.{jpg,jpeg,png,JPG,JPEG,PNG}",
+    { eager: true, import: "default" }
+  );
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formRef.current) return;
+
+    emailjs
+      .sendForm(
+        "service_xdj4996",
+        "template_dradehi",
+        formRef.current,
+        "iGpB097zxE-0bBxRC"
+      )
+      .then(
+        () => {
+          alert("Mensaje enviado correctamente 🚀");
+          formRef.current?.reset();
+        },
+        (error) => {
+          console.error(error);
+          alert("Error al enviar el mensaje");
+        }
+      );
+  };
+
+  const galleryImages = Object.values(galleryModules) as string[];
+
+          
+  const [activeBySlug, setActiveBySlug] = useState<Record<string, 0 | 1>>({});
+          
+
+
 
   return (
     <div className="min-h-screen bg-xolas-black selection:bg-neon-pink selection:text-white relative overflow-hidden">
@@ -126,50 +171,61 @@ export default function App() {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Background Decorative Elements */}
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      >
+        {/* Background */}
         <div className="absolute inset-0 z-0">
+
           {/* Neon Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink/20 blur-[120px] rounded-full"></div>
-          
-          {/* Abstract Lines */}
-          <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-            <pattern id="diagonal-lines" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="40" stroke="white" strokeWidth="1" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-neon-pink/20 blur-[160px] rounded-full"></div>
+
+          {/* Subtle Grid Pattern */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
             </pattern>
-            <rect width="100%" height="100%" fill="url(#diagonal-lines)" />
+            <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
 
-          <img 
-            src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1920" 
-            className="w-full h-full object-cover opacity-20 grayscale scale-110"
+          {/* Background Image */}
+          <img
+            src="assets/foto/fotos_equip/foto1.jpeg"
+            className="w-full h-full object-cover opacity-15 grayscale scale-110"
             alt="Futsal background"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-xolas-black via-transparent to-xolas-black"></div>
+
+          <div className="absolute inset-0 bg-gradient-to-b from-xolas-black via-xolas-black/60 to-xolas-black"></div>
         </div>
 
         <div className="container mx-auto px-6 relative z-10 text-center">
-          {/* Floating Badge */}
+
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -20, rotate: -5 }}
-            animate={{ opacity: 1, y: 0, rotate: -2 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             className="inline-block mb-8"
           >
-            <div className="bg-neon-pink text-white px-6 py-2 rounded-full font-black text-xs md:text-sm uppercase tracking-[0.3em] shadow-[0_0_20px_rgba(255,0,255,0.6)] animate-pulse border-2 border-white/20">
-              PRÒXIM XOLAS DAY: 14 JUNY
-            </div>
+            {/*<div className="bg-neon-pink text-white px-8 py-3 rounded-full font-black text-xs md:text-sm uppercase tracking-[0.3em] shadow-[0_0_25px_rgba(255,0,255,0.5)] border border-white/20">
+              PRÒXIM XOLAS DAY · 14 JUNY
+            </div>*/}
           </motion.div>
 
+          {/* Title */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-7xl md:text-[12rem] font-display leading-[0.85] mb-8 tracking-tighter">
+            <h1 className="text-5xl sm:text-7xl md:text-[11rem] font-display leading-[0.85] mb-8 tracking-tight">
               <span className="block text-white">MÉS QUE UN EQUIP</span>
-              <span className="block text-neon-pink drop-shadow-[0_0_30px_rgba(255,0,255,0.4)]">UNA FESTA</span>
+              <span className="block text-neon-pink drop-shadow-[0_0_40px_rgba(255,0,255,0.6)]">
+                UNA FAMÍLIA
+              </span>
             </h1>
-            
+
             <p className="text-sm md:text-xl max-w-xl mx-auto mb-12 text-white/60 font-medium uppercase tracking-widest leading-relaxed">
               {t.hero.subtitle}
             </p>
@@ -177,18 +233,18 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <motion.a
                 href="#festival"
-                whileHover={{ scale: 1.05, backgroundColor: '#fff', color: '#ff00ff' }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto bg-neon-pink text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-tighter shadow-[0_10px_30px_rgba(255,0,255,0.3)] transition-all border-2 border-neon-pink"
+                className="w-full sm:w-auto bg-neon-pink text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-tight shadow-[0_15px_40px_rgba(255,0,255,0.35)] border border-neon-pink transition-all hover:bg-white hover:text-neon-pink"
               >
                 {t.hero.cta}
               </motion.a>
-              
+
               <motion.a
                 href="#about"
                 whileHover={{ scale: 1.05, borderColor: '#ff00ff', color: '#ff00ff' }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto border-2 border-white/20 text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-tighter transition-all hover:bg-white/5"
+                className="w-full sm:w-auto border-2 border-white/20 text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-tight transition-all hover:bg-white/5"
               >
                 CONEIX EL GRUP
               </motion.a>
@@ -196,11 +252,22 @@ export default function App() {
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 rotate-90 origin-left translate-x-3">SCROLL</span>
-          <div className="w-[1px] h-20 bg-gradient-to-b from-neon-pink to-transparent"></div>
-        </div>
+        {/* Scroll Indicator
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+        >
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">
+            SCROLL
+          </span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="w-[2px] h-16 bg-gradient-to-b from-neon-pink to-transparent"
+          />
+        </motion.div> */}
       </section>
 
       {/* Qui Som */}
@@ -241,8 +308,8 @@ export default function App() {
             >
               <div className="absolute -inset-4 border-2 border-neon-pink rounded-2xl rotate-3 z-0"></div>
               <img 
-                src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&q=80&w=800" 
-                className="rounded-2xl relative z-10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
+                src="src/assets/fotos/fotos_equip/foto1.jpeg" 
+                className="rounded-2xl relative z-10 shadow-2xl transition-all duration-500"
                 alt="Team group"
               />
             </motion.div>
@@ -260,43 +327,143 @@ export default function App() {
             <div className="w-24 h-1 bg-neon-pink mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {playersData.map((player, idx) => (
-              <motion.div
-                key={player.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative bg-xolas-black border border-white/10 rounded-xl overflow-hidden hover:border-neon-pink/50 transition-all"
-              >
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img 
-                    src={player.image} 
-                    alt={player.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
-                  />
-                </div>
-                <div className="absolute top-4 right-4 bg-neon-pink text-white font-display text-2xl px-3 py-1 rounded-lg">
-                  #{player.number}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-display uppercase tracking-tight mb-1">{player.name}</h3>
-                  <p className="text-neon-pink text-xs font-bold uppercase tracking-widest mb-3">{player.position}</p>
-                  <div className="pt-3 border-t border-white/10">
-                    <p className="text-xs text-white/50 italic">
-                      <span className="text-white/80 font-bold not-italic block mb-1">{t.players.special_skill}:</span>
-                      "{player.skill}"
-                    </p>
+          {/* ✅ Estado fuera del map (pon esto ARRIBA del return del componente App)
+              const [activeBySlug, setActiveBySlug] = useState<Record<string, 0 | 1>>({});
+          */}
+
+          {/*
+            ✅ Mueve también esto fuera del map (ARRIBA del return del App):
+            const extraInfo: Record<string, { number: string; nickname?: string; skill: string }> = { ... };
+          */}
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+            {playersData.map((player, idx) => {
+              const extraInfo: Record<string, { number: string; nickname?: string; skill: string }> = {
+                "Gina Moré": { number: "16", skill: "Dispara desde su casa y también marca." },
+                "Anna Solé": { number: "2", nickname: "Annasu", skill: "Corre tanto que el GPS se pierde." },
+                "Maria Solé": { number: "05", nickname: "La Meri", skill: "Controla el balón como si tuviera imán." },
+                "Marta Vizcaino": { number: "22", nickname: "Marta", skill: "Si chuta, aparta la cabeza." },
+                "Leire Garrido": { number: "6", skill: "Recupera balones hasta en sueños." },
+                "Lydia Fernández": { number: "24", nickname: "Valiente", skill: "No tiene miedo ni al VAR imaginario." },
+                "Ona Pérez": { number: "9", skill: "Tiene más gol que hambre." },
+                "Jana Puig": { number: "11", nickname: "Janix", skill: "Aparece y de repente el partido va mejor." },
+              };
+
+              const info = extraInfo[player.name];
+
+              // ✅ usa slug (o id) como clave estable
+              const key = player.slug ?? String(player.id);
+
+              // ⚠️ OJO: activeBySlug debe existir en el componente App (fuera del map)
+              const activeImage = (activeBySlug?.[key] ?? 0) as 0 | 1;
+
+              const toggleImage = () => {
+                setActiveBySlug((prev) => ({
+                  ...prev,
+                  [key]: (prev?.[key] === 0 ? 1 : 0) as 0 | 1,
+                }));
+              };
+
+              const src0 = `${import.meta.env.BASE_URL}${player.images?.[0]?.replace(/^\//, "")}`;
+              const src1 = `${import.meta.env.BASE_URL}${player.images?.[1]?.replace(/^\//, "")}`;
+              const activeSrc = activeImage === 0 ? src0 : src1;
+
+              return (
+                <motion.div
+                  key={player.slug ?? player.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group relative bg-xolas-black border border-white/10 rounded-xl overflow-hidden hover:border-neon-pink/50 transition-all"
+                >
+                  <div className="aspect-[3/4] overflow-hidden relative">
+                    {/* ✅ Mobile: animación al cambiar */}
+                    <div className="md:hidden w-full h-full">
+                      <AnimatePresence mode="wait">
+                        <motion.img
+                          key={activeSrc}
+                          src={activeSrc}
+                          alt={player.name}
+                          initial={{ opacity: 0, scale: 1.03 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.35, ease: "easeInOut" }}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </AnimatePresence>
+
+                      <button
+                        type="button"
+                        onClick={toggleImage}
+                        className="absolute bottom-3 right-3 bg-neon-pink text-white text-xs px-4 py-2 rounded-full shadow-lg active:scale-95 transition"
+                      >
+                        ↺
+                      </button>
+                    </div>
+
+                    {/* ✅ Desktop: imagen 1 + hover imagen 2 */}
+                    <div className="hidden md:block w-full h-full">
+                      <img
+                        src={src0}
+                        alt={player.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"                        
+                        loading="lazy"
+                      />
+
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        <img
+                          src={src1}
+                          alt={player.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-xolas-black/70 via-transparent to-transparent" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Número */}
+                  {info?.number && (
+                    <div className="absolute top-4 right-4 bg-neon-pink text-white font-display text-5xl md:text-6xl px-5 py-2 rounded-2xl shadow-2xl leading-none">
+                      #{info.number}
+                    </div>
+                  )}
+
+                  <div className="p-6 relative">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <h3 className="text-2xl font-display uppercase tracking-tight">
+                        {player.name}
+                      </h3>
+
+                      {info?.nickname && info.nickname !== player.name && (
+                        <span className="text-neon-pink text-sm font-bold">
+                          ({info.nickname})
+                        </span>
+                      )}
+                    </div>
+
+                    {info?.skill && (
+                      <div className="pt-3 border-t border-white/10">
+                        <p className="text-xs text-white/60 italic">
+                          <span className="text-white/80 font-bold not-italic block mb-1">
+                            {t.players.special_skill}:
+                          </span>
+                          "{info.skill}"
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Xolas Day (The Star Section) */}
+      {/*
       <section id="festival" className="py-24 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-neon-pink/5 -skew-y-6 origin-top-left"></div>
         
@@ -337,7 +504,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Schedule */}
+          
           <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/10 mb-20">
             <h3 className="text-4xl font-display mb-12 text-center">{t.festival.schedule}</h3>
             <div className="grid md:grid-cols-3 gap-8">
@@ -365,7 +532,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Sponsors */}
+          
           <div className="text-center">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/30 mb-10">{t.festival.sponsors}</p>
             <div className="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all">
@@ -375,6 +542,67 @@ export default function App() {
               <div className="text-3xl font-display">SPONSOR 4</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      */}
+
+
+      {/* Galería */}
+      <section id="gallery" className="py-24 bg-xolas-black">      
+        <div className="container mx-auto px-6">
+
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-7xl font-display mb-4 italic text-white">
+              GALERÍA XOLAS
+            </h2>
+            <div className="w-24 h-1 bg-neon-pink mx-auto"></div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            {galleryImages.map((img, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.05 }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-xl border border-white/10 hover:border-neon-pink/50 transition-all cursor-pointer"
+                onClick={() => setSelectedImage(img)}
+              >
+                <img
+                  src={img}
+                  alt={`Galería Xolas ${idx + 1}`}
+                  className="w-full h-full object-cover aspect-square group-hover:scale-110 transition-all duration-500"
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Lightbox */}
+          <AnimatePresence>
+            {selectedImage && (
+              <motion.div
+                className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedImage(null)}
+              >
+                <motion.img
+                  key={selectedImage}
+                  src={selectedImage}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </div>
       </section>
 
@@ -402,7 +630,7 @@ export default function App() {
                   </div>
                   <div>
                     <h4 className="font-bold mb-1">Location</h4>
-                    <p className="text-white/60">Pavelló Municipal del Barri, Barcelona</p>
+                    <p className="text-white/60">Avinguda dels Països Catalans, 1, 08690 Santa Coloma de Cervelló, Barcelona</p>
                   </div>
                 </div>
               </div>
@@ -410,72 +638,103 @@ export default function App() {
               <div className="pt-8 border-t border-white/10">
                 <p className="text-sm uppercase tracking-widest font-bold mb-6 text-white/40">{t.contact.follow}</p>
                 <motion.a 
-                  href="https://instagram.com" 
+                  href="https://instagram.com/@XOLASFC" 
                   target="_blank"
                   whileHover={{ scale: 1.1, color: '#ff007f' }}
                   className="inline-flex items-center space-x-3 text-3xl font-display"
                 >
                   <Instagram size={32} />
-                  <span>@XOLAS_FUTSAL</span>
+                  <span>@XOLAS_FC</span>
                 </motion.a>
               </div>
             </div>
 
             <div className="bg-white/5 p-8 md:p-12 rounded-3xl border border-white/10">
-              <form className="space-y-6" id="contact-form">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">{t.contact.name}</label>
-                  <input 
-                    type="text" 
-                    name="user_name"
-                    className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all"
-                    placeholder="Tu nombre..."
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">{t.contact.email}</label>
-                  <input 
-                    type="email" 
-                    name="user_email"
-                    className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all"
-                    placeholder="tu@email.com"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">{t.contact.message}</label>
-                  <textarea 
-                    name="message"
-                    rows={4}
-                    className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all resize-none"
-                    placeholder="Cuéntanos algo..."
-                    required
-                  ></textarea>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full bg-neon-pink text-white font-bold py-4 rounded-xl uppercase tracking-widest shadow-lg shadow-neon-pink/20"
-                >
-                  {t.contact.send}
-                </motion.button>
-              </form>
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">
+                  {t.contact.name}
+                </label>
+                <input
+                  type="text"
+                  name="from_name"   // 🔥 CAMBIADO
+                  className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all"
+                  placeholder="Tu nombre..."
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">
+                  {t.contact.email}
+                </label>
+                <input
+                  type="email"
+                  name="from_email"   // 🔥 CAMBIADO
+                  className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all"
+                  placeholder="tu@email.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-white/50">
+                  {t.contact.message}
+                </label>
+                <textarea
+                  name="message"
+                  rows={4}
+                  className="w-full bg-xolas-black border border-white/10 rounded-xl px-4 py-3 focus:border-neon-pink outline-none transition-all resize-none"
+                  placeholder="Cuéntanos algo..."
+                  required
+                />
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                type="submit"
+                className="w-full bg-neon-pink text-white font-bold py-4 rounded-xl uppercase tracking-widest shadow-lg"
+              >
+                {t.contact.send}
+              </motion.button>
+            </form>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/5 text-center">
-        <div className="container mx-auto px-6">
-          <div className="text-2xl font-display tracking-tighter text-white/20 mb-4">
-            XOLAS<span className="text-white/10">FC</span>
+      <footer className="relative py-16 border-t border-white/10 bg-xolas-black">
+        <div className="container mx-auto px-6 text-center">
+
+          {/* Logo */}
+          <div className="text-3xl md:text-4xl font-display tracking-tight text-white mb-6">
+            XOLAS<span className="text-neon-pink">FC</span>
           </div>
-          <p className="text-xs text-white/30 uppercase tracking-[0.2em]">
-            &copy; {new Date().getFullYear()} Xolas Futsal. Made with ❤️ by the neighborhood.
+
+          {/* Divider */}
+          <div className="w-16 h-[2px] bg-neon-pink mx-auto mb-6 opacity-60"></div>
+
+          {/* Copyright */}
+          <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-6">
+            &copy; {new Date().getFullYear()} Xolas Futsal
           </p>
+
+          {/* Credit */}
+          <a
+            href="https://mallenk.github.io/Portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-sm text-white/50 hover:text-neon-pink transition-colors duration-300 tracking-wide"
+          >
+            Designed & created by <span className="font-semibold text-white hover:text-neon-pink transition-colors">mallenK</span>
+          </a>
+
         </div>
       </footer>
     </div>
