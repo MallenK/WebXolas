@@ -43,7 +43,7 @@ export default function App() {
     { name: t.nav.home, href: '#home' },
     { name: t.nav.about, href: '#about' },
     { name: t.nav.players, href: '#players' },
-    { name: t.nav.festival, href: '#festival' },
+    { name: t.nav.festival, href: '#gallery' },
     { name: t.nav.contact, href: '#contact' },
   ];
 
@@ -85,7 +85,24 @@ export default function App() {
           
   const [activeBySlug, setActiveBySlug] = useState<Record<string, 0 | 1>>({});
           
-
+  const extraInfo: Record<
+    string,
+    {
+      number: string;
+      nickname?: string;
+      skillKey: string;
+      positionKey?: string;
+    }
+  > = {
+    "Gina Moré": { number: "16", skillKey: "gina" },
+    "Anna Solé": { number: "2", nickname: "Annasu", skillKey: "anna" },
+    "Maria Solé": { number: "05", nickname: "La Meri", skillKey: "maria" },
+    "Marta Vizcaino": { number: "22", skillKey: "marta" },
+    "Leire Garrido": { number: "6", skillKey: "leire" },
+    "Lydia Fernández": { number: "24", skillKey: "lydia" },
+    "Ona Pérez": { number: "9", skillKey: "ona" },
+    "Jana Puig": { number: "7", skillKey: "jana" },
+  };
 
 
   return (
@@ -177,30 +194,41 @@ export default function App() {
       >
         {/* Background */}
         <div className="absolute inset-0 z-0">
+          {/* New Background Image (layer 1) */}
+          <img
+            src="assets/fotos/fotos_equip/foto2.jpeg"
+            className="absolute inset-0 w-full h-full object-cover opacity-25 scale-110"
+            alt="Futsal background 2"
+          />
+
+          {/* Existing Background Image (layer 2) */}
+          <img
+            src="assets/foto/fotos_equip/foto1.jpeg"
+            className="absolute inset-0 w-full h-full object-cover opacity-10 scale-125 mix-blend-screen"
+            alt="Futsal background"
+          />
 
           {/* Neon Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-neon-pink/20 blur-[160px] rounded-full"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] md:w-[760px] md:h-[760px] bg-neon-pink/25 blur-[140px] rounded-full"></div>
+          <div className="absolute -top-24 -left-24 w-[320px] h-[320px] bg-white/10 blur-[120px] rounded-full"></div>
 
           {/* Subtle Grid Pattern */}
-          <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-[0.05]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1" />
             </pattern>
             <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
 
-          {/* Background Image */}
-          <img
-            src="assets/foto/fotos_equip/foto1.jpeg"
-            className="w-full h-full object-cover opacity-15 grayscale scale-110"
-            alt="Futsal background"
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-b from-xolas-black via-xolas-black/60 to-xolas-black"></div>
+          {/* Vignette + Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-xolas-black/80 via-xolas-black/45 to-xolas-black"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),rgba(0,0,0,0.92)_60%)]"></div>
         </div>
 
         <div className="container mx-auto px-6 relative z-10 text-center">
-
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -219,18 +247,20 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl sm:text-7xl md:text-[11rem] font-display leading-[0.85] mb-8 tracking-tight">
-              <span className="block text-white">MÉS QUE UN EQUIP</span>
-              <span className="block text-neon-pink drop-shadow-[0_0_40px_rgba(255,0,255,0.6)]">
-                UNA FAMÍLIA
+            {/* Mobile-first: one line, no line break between Xolas and FC */}
+            <h1 className="text-[3.2rem] sm:text-[4.6rem] md:text-[11rem] font-display leading-[0.9] mb-6 md:mb-8 tracking-tight">
+              <span className="text-white">Xolas</span>{" "}
+              <span className="text-neon-pink drop-shadow-[0_0_40px_rgba(255,0,255,0.6)]">
+                FC
               </span>
             </h1>
 
-            <p className="text-sm md:text-xl max-w-xl mx-auto mb-12 text-white/60 font-medium uppercase tracking-widest leading-relaxed">
+            <p className="text-xs sm:text-sm md:text-xl max-w-xl mx-auto mb-10 md:mb-12 text-white/70 font-medium uppercase tracking-[0.22em] leading-relaxed">
               {t.hero.subtitle}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              {/*
               <motion.a
                 href="#festival"
                 whileHover={{ scale: 1.05 }}
@@ -248,6 +278,7 @@ export default function App() {
               >
                 CONEIX EL GRUP
               </motion.a>
+              */}
             </div>
           </motion.div>
         </div>
@@ -274,6 +305,7 @@ export default function App() {
       <section id="about" className="py-24 bg-grid-pattern">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
+
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -282,24 +314,36 @@ export default function App() {
               <h2 className="text-5xl md:text-7xl font-display mb-8 text-neon-pink">
                 {t.about.title}
               </h2>
-              <p className="text-xl leading-relaxed text-white/70 mb-8">
-                {t.about.text}
-              </p>
+
+              <p
+                className="text-lg md:text-xl leading-relaxed text-white/70 mb-8 text-justify [&>br]:block [&>br]:mb-3"
+                dangerouslySetInnerHTML={{ __html: t.about.text }}
+              />
+
               <div className="flex space-x-6">
                 <div className="text-center">
                   <div className="text-4xl font-display text-white">10+</div>
-                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">Amigues</div>
+                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">
+                    Amigues
+                  </div>
                 </div>
+
                 <div className="text-center">
                   <div className="text-4xl font-display text-white">100%</div>
-                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">Barri</div>
+                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">
+                    Barri
+                  </div>
                 </div>
+
                 <div className="text-center">
                   <div className="text-4xl font-display text-white">∞</div>
-                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">Rialles</div>
+                  <div className="text-xs uppercase tracking-widest text-neon-pink font-bold">
+                    Rialles
+                  </div>
                 </div>
               </div>
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -307,160 +351,182 @@ export default function App() {
               className="relative"
             >
               <div className="absolute -inset-4 border-2 border-neon-pink rounded-2xl rotate-3 z-0"></div>
-              <img 
-                src="src/assets/fotos/fotos_equip/foto1.jpeg" 
+
+              <img
+                src="src/assets/fotos/fotos_equip/foto1.jpeg"
                 className="rounded-2xl relative z-10 shadow-2xl transition-all duration-500"
                 alt="Team group"
               />
             </motion.div>
+
           </div>
         </div>
       </section>
 
+
       {/* Jugadoras Grid */}
-      <section id="players" className="py-24 bg-white/5">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-7xl font-display mb-4 italic">
+      <section id="players" className="py-16 md:py-24 bg-white/5">
+        <div className="container mx-auto px-4 md:px-6">
+
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-7xl font-display mb-4 italic">
               {t.players.title}
             </h2>
-            <div className="w-24 h-1 bg-neon-pink mx-auto"></div>
+            <div className="w-16 md:w-24 h-1 bg-neon-pink mx-auto"></div>
           </div>
 
-          {/* ✅ Estado fuera del map (pon esto ARRIBA del return del componente App)
-              const [activeBySlug, setActiveBySlug] = useState<Record<string, 0 | 1>>({});
-          */}
+          {/* ================= MOBILE SLIDER ================= */}
+          <div className="md:hidden -mx-4 px-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+            <div className="flex gap-4 w-max pr-4">
 
-          {/*
-            ✅ Mueve también esto fuera del map (ARRIBA del return del App):
-            const extraInfo: Record<string, { number: string; nickname?: string; skill: string }> = { ... };
-          */}
+              {playersData.map((player, idx) => {
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+                const info = extraInfo[player.name];
+                const [imgIndex, setImgIndex] = useState(0);
+
+                const img =
+                  `${import.meta.env.BASE_URL}${
+                    player.images?.[imgIndex]?.replace(/^\//,"")
+                  }`;
+
+                return (
+                  <motion.div
+                    key={player.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.08 }}
+                    viewport={{ once: true }}
+                    onClick={() => {
+                      // cambia imagen
+                      setImgIndex(prev =>
+                        prev === player.images.length - 1 ? 0 : prev + 1
+                      );
+                    }}
+                    className="group relative w-[80vw] max-w-[320px] bg-xolas-black border border-white/10 rounded-xl overflow-hidden cursor-pointer snap-center shrink-0"
+                  >
+                    <div className="aspect-[3/4] overflow-hidden">
+
+                      <AnimatePresence mode="wait">
+                        <motion.img
+                          key={img}
+                          src={img}
+                          alt={player.name}
+                          initial={{ opacity: 0, scale: 1.05 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.98 }}
+                          transition={{ duration: 0.14, ease: "easeOut" }}
+                          className="w-full h-full object-cover"
+                        />
+                      </AnimatePresence>
+
+                    </div>
+
+                    {info?.number && (
+                      <div className="absolute top-4 right-4 bg-neon-pink text-white font-display text-2xl px-3 py-1 rounded-lg">
+                        #{info.number}
+                      </div>
+                    )}
+
+                    <div className="p-6">
+                      <h3 className="text-2xl font-display uppercase">
+                        {player.name}
+                      </h3>
+
+                      {info?.skillKey && (
+                        <div className="pt-3 border-t border-white/10">
+                          <p className="text-xs text-white/50 italic">
+                            <span className="text-white/80 font-bold block mb-1">
+                              {t.players.special_skill}:
+                            </span>
+                            "{t.players.skills[info.skillKey]}"
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+
+            </div>
+          </div>
+
+          {/* ================= DESKTOP GRID ================= */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-8">
+
             {playersData.map((player, idx) => {
-              const extraInfo: Record<string, { number: string; nickname?: string; skill: string }> = {
-                "Gina Moré": { number: "16", skill: "Dispara desde su casa y también marca." },
-                "Anna Solé": { number: "2", nickname: "Annasu", skill: "Corre tanto que el GPS se pierde." },
-                "Maria Solé": { number: "05", nickname: "La Meri", skill: "Controla el balón como si tuviera imán." },
-                "Marta Vizcaino": { number: "22", nickname: "Marta", skill: "Si chuta, aparta la cabeza." },
-                "Leire Garrido": { number: "6", skill: "Recupera balones hasta en sueños." },
-                "Lydia Fernández": { number: "24", nickname: "Valiente", skill: "No tiene miedo ni al VAR imaginario." },
-                "Ona Pérez": { number: "9", skill: "Tiene más gol que hambre." },
-                "Jana Puig": { number: "11", nickname: "Janix", skill: "Aparece y de repente el partido va mejor." },
-              };
 
               const info = extraInfo[player.name];
-
-              // ✅ usa slug (o id) como clave estable
-              const key = player.slug ?? String(player.id);
-
-              // ⚠️ OJO: activeBySlug debe existir en el componente App (fuera del map)
-              const activeImage = (activeBySlug?.[key] ?? 0) as 0 | 1;
-
-              const toggleImage = () => {
-                setActiveBySlug((prev) => ({
-                  ...prev,
-                  [key]: (prev?.[key] === 0 ? 1 : 0) as 0 | 1,
-                }));
-              };
-
-              const src0 = `${import.meta.env.BASE_URL}${player.images?.[0]?.replace(/^\//, "")}`;
-              const src1 = `${import.meta.env.BASE_URL}${player.images?.[1]?.replace(/^\//, "")}`;
-              const activeSrc = activeImage === 0 ? src0 : src1;
+              const [imgIndex, setImgIndex] = useState(0);
+              const img =
+                `${import.meta.env.BASE_URL}${
+                  player.images?.[imgIndex]?.replace(/^\//,"")
+                }`;
 
               return (
                 <motion.div
-                  key={player.slug ?? player.id}
+                  key={player.slug}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="group relative bg-xolas-black border border-white/10 rounded-xl overflow-hidden hover:border-neon-pink/50 transition-all"
+                  onMouseEnter={() => setImgIndex(1)}
+                  onMouseLeave={() => setImgIndex(0)}
+                  onClick={() =>
+                    setModalData({
+                      images: player.images,
+                      index: imgIndex,
+                      type: "player",
+                    })
+                  }
+                  className="group relative bg-xolas-black border border-white/10 rounded-xl overflow-hidden cursor-pointer"
                 >
-                  <div className="aspect-[3/4] overflow-hidden relative">
-                    {/* ✅ Mobile: animación al cambiar */}
-                    <div className="md:hidden w-full h-full">
-                      <AnimatePresence mode="wait">
-                        <motion.img
-                          key={activeSrc}
-                          src={activeSrc}
-                          alt={player.name}
-                          initial={{ opacity: 0, scale: 1.03 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.97 }}
-                          transition={{ duration: 0.35, ease: "easeInOut" }}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      </AnimatePresence>
+                  <div className="aspect-[3/4] overflow-hidden">
 
-                      <button
-                        type="button"
-                        onClick={toggleImage}
-                        className="absolute bottom-3 right-3 bg-neon-pink text-white text-xs px-4 py-2 rounded-full shadow-lg active:scale-95 transition"
-                      >
-                        ↺
-                      </button>
-                    </div>
-
-                    {/* ✅ Desktop: imagen 1 + hover imagen 2 */}
-                    <div className="hidden md:block w-full h-full">
-                      <img
-                        src={src0}
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={img}
+                        src={img}
                         alt={player.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"                        
-                        loading="lazy"
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                       />
+                    </AnimatePresence>
 
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                        <img
-                          src={src1}
-                          alt={player.name}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-xolas-black/70 via-transparent to-transparent" />
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Número */}
                   {info?.number && (
-                    <div className="absolute top-4 right-4 bg-neon-pink text-white font-display text-5xl md:text-6xl px-5 py-2 rounded-2xl shadow-2xl leading-none">
+                    <div className="absolute top-4 right-4 bg-neon-pink text-white font-display text-2xl px-3 py-1 rounded-lg">
                       #{info.number}
                     </div>
                   )}
 
-                  <div className="p-6 relative">
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <h3 className="text-2xl font-display uppercase tracking-tight">
-                        {player.name}
-                      </h3>
+                <div className="p-6">
+                  <h3 className="text-2xl font-display uppercase">
+                    {player.name}
+                  </h3>
 
-                      {info?.nickname && info.nickname !== player.name && (
-                        <span className="text-neon-pink text-sm font-bold">
-                          ({info.nickname})
+                  {info?.skillKey && t.players.skills?.[info.skillKey] && (
+                    <div className="pt-3 border-t border-white/10">
+                      <p className="text-xs text-white/70 italic leading-relaxed">
+                        <span className="text-white font-bold block mb-1">
+                          {t.players.special_skill}:
                         </span>
-                      )}
+                        "{t.players.skills[info.skillKey]}"
+                      </p>
                     </div>
-
-                    {info?.skill && (
-                      <div className="pt-3 border-t border-white/10">
-                        <p className="text-xs text-white/60 italic">
-                          <span className="text-white/80 font-bold not-italic block mb-1">
-                            {t.players.special_skill}:
-                          </span>
-                          "{info.skill}"
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  )}
+                </div>
                 </motion.div>
               );
             })}
+
           </div>
         </div>
       </section>
+
 
       {/* Xolas Day (The Star Section) */}
       {/*
@@ -549,17 +615,41 @@ export default function App() {
 
 
       {/* Galería */}
-      <section id="gallery" className="py-24 bg-xolas-black">      
-        <div className="container mx-auto px-6">
-
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-7xl font-display mb-4 italic text-white">
-              GALERÍA XOLAS
+      <section id="gallery" className="py-16 md:py-24 bg-xolas-black relative overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-7xl font-display mb-4 italic">
+              {t.gallery?.title || 'GALERIA'}
             </h2>
-            <div className="w-24 h-1 bg-neon-pink mx-auto"></div>
+            <p className="text-neon-pink font-bold uppercase tracking-widest text-xs md:text-sm">
+              {t.gallery?.subtitle || 'Moments Xolas'}
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+          <div className="md:hidden -mx-4 px-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+            <div className="flex gap-4 w-max pr-4">
+              {galleryImages.map((img, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.05 }}
+                  viewport={{ once: true }}
+                  onClick={() => setModalData({ images: galleryImages, index: idx, type: 'gallery' })}
+                  className="relative overflow-hidden rounded-lg w-[80vw] max-w-[340px] aspect-square group cursor-pointer snap-center shrink-0"
+                >
+                  <img
+                    src={img}
+                    alt={`Gallery ${idx}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-neon-pink/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-4">
             {galleryImages.map((img, idx) => (
               <motion.div
                 key={idx}
@@ -567,42 +657,20 @@ export default function App() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: idx * 0.05 }}
                 viewport={{ once: true }}
-                className="group relative overflow-hidden rounded-xl border border-white/10 hover:border-neon-pink/50 transition-all cursor-pointer"
-                onClick={() => setSelectedImage(img)}
+                onClick={() => setModalData({ images: galleryImages, index: idx, type: 'gallery' })}
+                className={`relative overflow-hidden rounded-lg aspect-square group cursor-pointer ${
+                  idx === 0 ? 'md:col-span-2 md:row-span-2' : ''
+                }`}
               >
-                <img
-                  src={img}
-                  alt={`Galería Xolas ${idx + 1}`}
-                  className="w-full h-full object-cover aspect-square group-hover:scale-110 transition-all duration-500"
-                  loading="lazy"
+                <img 
+                  src={img} 
+                  alt={`Gallery ${idx}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
                 />
+                <div className="absolute inset-0 bg-neon-pink/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
               </motion.div>
             ))}
           </div>
-
-          {/* Lightbox */}
-          <AnimatePresence>
-            {selectedImage && (
-              <motion.div
-                className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedImage(null)}
-              >
-                <motion.img
-                  key={selectedImage}
-                  src={selectedImage}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
         </div>
       </section>
 
@@ -638,7 +706,7 @@ export default function App() {
               <div className="pt-8 border-t border-white/10">
                 <p className="text-sm uppercase tracking-widest font-bold mb-6 text-white/40">{t.contact.follow}</p>
                 <motion.a 
-                  href="https://instagram.com/@XOLASFC" 
+                  href="https://instagram.com/xolasfc" 
                   target="_blank"
                   whileHover={{ scale: 1.1, color: '#ff007f' }}
                   className="inline-flex items-center space-x-3 text-3xl font-display"
